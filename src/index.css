@@ -1,0 +1,204 @@
+.monaco-editor .suggest-widget {
+  width: 800px !important;
+  border-radius: 10px;
+  padding: 6px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: Inter, system-ui, sans-serif;
+
+  background: #0f1117;
+  color: white;
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 280px;
+  background: #151821;
+
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.sidebarSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebarTitle {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+
+  opacity: 0.5;
+}
+
+.sidebarItem {
+  padding: 10px 12px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  transition: 0.15s ease;
+}
+
+.sidebarItem:hover {
+  background: rgba(124, 154, 255, 0.12);
+}
+
+.sidebarItem.active {
+  background: rgba(124, 154, 255, 0.22);
+  border-left: 3px solid #7c9aff;
+}
+
+.workspace {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+}
+
+.topbar {
+  height: 72px;
+
+  padding: 0 28px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: #12141c;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 13px;
+  opacity: 0.6;
+  margin-top: 2px;
+}
+
+.topbarActions {
+  display: flex;
+  gap: 12px;
+}
+
+button {
+  border: none;
+  outline: none;
+
+  border-radius: 10px;
+
+  padding: 10px 16px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.ghostBtn {
+  background: rgba(255, 255, 255, 0.06);
+  color: white;
+}
+
+.primaryBtn {
+  background: #7c9aff;
+  color: white;
+}
+
+.editorContainer {
+  flex: 1;
+
+  padding: 20px;
+
+  overflow: hidden;
+}
+
+.editorToolbar {
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 14px;
+
+  background: #151821;
+
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.editorTab {
+  padding: 8px 14px;
+
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  font-size: 14px;
+}
+
+.editorBody {
+  height: calc(100% - 48px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+
+  overflow: hidden;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-img {
+  height: 32px; /* ajuste selon ton design */
+  width: auto;
+}
