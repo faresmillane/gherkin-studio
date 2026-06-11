@@ -1,13 +1,41 @@
-.monaco-editor .suggest-widget {
-  width: 800px !important;
-  border-radius: 10px;
-  padding: 6px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+:root {
+  --bg: #f6f7fb;
+  --panel: #ffffff;
+  --panel-2: #f3f4f6;
+  --text: #111827;
+  --text-soft: #6b7280;
+  --border: #e5e7eb;
+  --primary: #4f46e5;
+  --primary-soft: #e0e7ff;
+
+  --hover: rgba(0, 0, 0, 0.04);
+  --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+
+  color-scheme: light;
 }
 
-:root {
+/* =========================
+   DARK MODE
+========================= */
+[data-theme="dark"] {
+  --bg: #0f1117;
+  --panel: #151821;
+  --panel-2: #1c1f2a;
+  --text: #e6edf3;
+  --text-soft: #9ca3af;
+  --border: rgba(255, 255, 255, 0.08);
+  --primary: #7c9aff;
+  --primary-soft: rgba(124, 154, 255, 0.18);
+
+  --hover: rgba(255, 255, 255, 0.06);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+
   color-scheme: dark;
 }
+
+/* =========================
+   BASE
+========================= */
 
 * {
   box-sizing: border-box;
@@ -18,14 +46,14 @@ body,
 #root {
   margin: 0;
   height: 100%;
-}
-
-body {
+  background: var(--bg);
+  color: var(--text);
   font-family: Inter, system-ui, sans-serif;
-
-  background: #0f1117;
-  color: white;
 }
+
+/* =========================
+   APP LAYOUT
+========================= */
 
 .app {
   display: flex;
@@ -33,172 +61,337 @@ body {
   overflow: hidden;
 }
 
+/* =========================
+   SIDEBAR
+========================= */
+
 .sidebar {
-  width: 280px;
-  background: #151821;
+  width: 300px;
+  background: var(--panel);
+  border-right: 1px solid var(--border);
 
-  border-right: 1px solid rgba(255, 255, 255, 0.06);
-
-  padding: 24px;
+  padding: 16px;
 
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 14px;
+
+  overflow-y: auto;
 }
+
+/* =========================
+   LOGO
+========================= */
 
 .logo {
-  font-size: 20px;
-  font-weight: 700;
-}
+  font-size: 15px;
+  font-weight: 600;
 
-.sidebarSection {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.sidebarTitle {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-
-  opacity: 0.5;
-}
-
-.sidebarItem {
   padding: 10px 12px;
-
   border-radius: 10px;
 
-  cursor: pointer;
-
-  transition: 0.15s ease;
-}
-
-.sidebarItem:hover {
-  background: rgba(124, 154, 255, 0.12);
-}
-
-.sidebarItem.active {
-  background: rgba(124, 154, 255, 0.22);
-  border-left: 3px solid #7c9aff;
-}
-
-.workspace {
-  flex: 1;
-
-  display: flex;
-  flex-direction: column;
-
-  overflow: hidden;
-}
-
-.topbar {
-  height: 72px;
-
-  padding: 0 28px;
-
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--panel-2);
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  background: #12141c;
+  color: var(--text);
 }
 
-.title {
-  font-size: 18px;
-  font-weight: 700;
-}
+/* =========================
+   SECTIONS
+========================= */
 
-.subtitle {
-  font-size: 13px;
-  opacity: 0.6;
-  margin-top: 2px;
-}
-
-.topbarActions {
+.sidebarSection {
   display: flex;
-  gap: 12px;
+  flex-direction: column;
+  gap: 6px;
 }
+
+.sidebarTitle {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--text-soft);
+
+  padding: 6px 10px;
+  text-transform: uppercase;
+}
+
+/* =========================
+   ITEMS
+========================= */
+
+.sidebarItem {
+  padding: 8px 10px;
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-size: 13px;
+  color: var(--text);
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  transition: 0.15s ease;
+}
+
+.sidebarItem:hover {
+  background: var(--panel-2);
+}
+
+.sidebarItem.active {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+/* =========================
+   TREE (FEATURES)
+========================= */
+
+.treeFolder {
+  margin-bottom: 6px;
+}
+
+.treeFolderHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 7px 10px;
+  border-radius: 8px;
+
+  cursor: pointer;
+  user-select: none;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  color: var(--text-soft);
+}
+
+.treeFolderHeader:hover {
+  background: var(--panel-2);
+  color: var(--text);
+}
+
+.treeArrow {
+  width: 14px;
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.treeFolderContent {
+  margin-left: 14px;
+  padding-left: 10px;
+  border-left: 1px solid var(--border);
+}
+
+.treeItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 6px 10px;
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  font-size: 13px;
+  color: var(--text);
+}
+
+.treeItem:hover {
+  background: var(--panel-2);
+}
+
+.treeItem.active {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+/* =========================
+   WORKSPACE
+========================= */
+
+.workspace {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  background: var(--bg);
+}
+
+/* =========================
+   EDITOR
+========================= */
+
+.editorContainer {
+  flex: 1;
+  padding: 14px;
+  overflow: hidden;
+}
+
+.editorToolbar {
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 12px;
+
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-bottom: none;
+
+  border-radius: 10px 10px 0 0;
+}
+
+.editorTab {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.editorBody {
+  height: calc(100% - 42px);
+
+  border-radius: 0 0 10px 10px;
+
+  border: 1px solid var(--border);
+
+  overflow: hidden;
+
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+/* =========================
+   BUTTONS
+========================= */
 
 button {
   border: none;
-  outline: none;
+  border-radius: 8px;
 
-  border-radius: 10px;
+  padding: 8px 12px;
 
-  padding: 10px 16px;
-
+  font-size: 13px;
   font-weight: 600;
 
   cursor: pointer;
 }
 
 .ghostBtn {
-  background: rgba(255, 255, 255, 0.06);
-  color: white;
+  background: var(--panel-2);
+  color: var(--text);
 }
 
 .primaryBtn {
-  background: #7c9aff;
+  background: var(--primary);
   color: white;
 }
 
-.editorContainer {
-  flex: 1;
+/* =========================
+   MONACO SUGGEST
+========================= */
 
-  padding: 20px;
-
-  overflow: hidden;
-}
-
-.editorToolbar {
-  height: 48px;
-
-  display: flex;
-  align-items: center;
-
-  padding: 0 14px;
-
-  background: #151821;
-
-  border-top-left-radius: 14px;
-  border-top-right-radius: 14px;
-
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.editorTab {
-  padding: 8px 14px;
+.monaco-editor .suggest-widget {
+  width: 520px !important;
 
   border-radius: 10px;
 
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--panel) !important;
+  border: 1px solid var(--border);
 
-  font-size: 14px;
+  box-shadow: var(--shadow);
 }
 
-.editorBody {
-  height: calc(100% - 48px);
-
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-
-  border-bottom-left-radius: 14px;
-  border-bottom-right-radius: 14px;
-
-  overflow: hidden;
+.monaco-editor .suggest-widget .monaco-list-row {
+  color: var(--text);
 }
 
-.logo {
+.logoBar {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+
+  padding: 10px 12px;
+  border-radius: 10px;
+
+  background: var(--surface);
 }
 
-.logo-img {
-  height: 32px; /* ajuste selon ton design */
-  width: auto;
+.logoTitle {
+  font-weight: 600;
+}
+
+/* =========================
+   THEME SWITCH
+========================= */
+
+.themeSwitch {
+  width: 58px;
+  height: 30px;
+
+  border-radius: 999px;
+
+  padding: 4px;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+
+  transition: 0.25s ease;
+
+  position: relative;
+}
+
+.themeSwitch.light {
+  background: #e5e7eb;
+  justify-content: flex-start;
+}
+
+.themeSwitch.dark {
+  background: #1f2937;
+  justify-content: flex-end;
+}
+
+.themeSwitchThumb {
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+
+  background: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 12px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+  transition: 0.25s ease;
+}
+
+.treeFileIcon,
+.treeFolderIcon,
+.treeArrow {
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.treeFileIcon {
+  color: #94a3b8;
+}
+
+.treeItem.active .treeFileIcon {
+  color: #6366f1;
 }

@@ -3,6 +3,21 @@ import { stepSuggestions } from "../../core/steps/step.catalog";
 import type * as Monaco from "monaco-editor";
 import { useEffect, useRef } from "react";
 
+const pages = [
+  {
+    name: "_LoginPage",
+    elements: ["SubmitButton", "EmailField", "PasswordField"],
+  },
+  {
+    name: "_DashboardPage",
+    elements: ["Header", "UserMenu", "LogoutButton"],
+  },
+  {
+    name: "users",
+    elements: ["fares", "lea", "moi"],
+  },
+];
+
 type CompletionMode = "keyword" | "step" | "page" | "element";
 
 type GherkinContext = {
@@ -16,20 +31,30 @@ let completionRegistered = false;
 function getGherkinContext(line: string, column: number): GherkinContext {
   const beforeCursor = line.slice(0, column - 1);
 
-  const keywordMatch = beforeCursor.match(/\b(Given|When|Then|And|But)\b/);
-  const keyword = keywordMatch?.[1] ?? null;
+  const stepKeywordMatch = beforeCursor.match(
+    /^\s*(Given|When|Then|And|But)\b/,
+  );
+  const keyword = stepKeywordMatch?.[1] ?? null;
 
-  const quotes = [...beforeCursor.matchAll(/"([^"]*)"/g)].map((m) => m[1]);
+  if (!keyword) {
+    return {
+      mode: "keyword",
+      pageName: null,
+      keyword: null,
+    };
+  }
 
   const quoteCount = (beforeCursor.match(/"/g) ?? []).length;
 
-  // NO KEYWORD
-  if (!keyword) {
-    return { mode: "keyword", pageName: null, keyword: null };
+  if (quoteCount === 0) {
+    return {
+      mode: "step",
+      pageName: null,
+      keyword,
+    };
   }
 
-  // PAGE MODE = on first quote or incomplete pair
-  if (quoteCount === 1 || (quoteCount === 2 && quotes.length === 1)) {
+  if (quoteCount === 1) {
     return {
       mode: "page",
       pageName: null,
@@ -37,20 +62,21 @@ function getGherkinContext(line: string, column: number): GherkinContext {
     };
   }
 
-  // ELEMENT MODE = we already have page name
-  if (quotes.length >= 1) {
+  if (quoteCount >= 3 && quoteCount % 2 === 1) {
+    const pageName = beforeCursor.match(/"([^"]+)"/)?.[1] ?? null;
+
     return {
       mode: "element",
-      pageName: quotes[0], // 👈 IMPORTANT FIX
+      pageName,
       keyword,
     };
   }
 
-  return { mode: "step", pageName: null, keyword };
-}
-
-function normalizeName(name: string) {
-  return (name || "").toLowerCase().replace(".page.js", "").replace("_", "");
+  return {
+    mode: "step",
+    pageName: null,
+    keyword,
+  };
 }
 
 function buildKeywordSuggestions(monaco: typeof Monaco) {
@@ -83,18 +109,17 @@ function buildKeywordSuggestions(monaco: typeof Monaco) {
 export default function GherkinEditor({
   value,
   onChange,
-  theme,
-  pages,
 }: {
   value: string;
   onChange?: (v: string) => void;
-  theme: string;
-  pages: any[];
 }) {
-  const pagesRef = useRef(pages);
+  const editorRef = useRef<Monaco.editor.IStandaloneCodeEditor | null>(null);
+
   useEffect(() => {
-    pagesRef.current = pages;
-  }, [pages]);
+    return () => {
+      completionRegistered = false;
+    };
+  }, []);
   return (
     <div style={{ height: "100%" }}>
       <Editor
@@ -102,7 +127,7 @@ export default function GherkinEditor({
         onChange={(v) => onChange?.(v ?? "")}
         height="100%"
         defaultLanguage="gherkin"
-        theme={theme === "fun-dark" ? "fun-dark" : "fun-light"}
+        theme="fun-dark"
         options={{
           minimap: { enabled: false },
           fontSize: 14,
@@ -213,9 +238,12 @@ export default function GherkinEditor({
           });
         }}
         onMount={(editor, monaco) => {
-          monaco.editor.setTheme(
-            theme === "fun-dark" ? "fun-dark" : "fun-light",
-          );
+          editorRef.current = editor;
+
+          // initial load
+          editor.setValue(value ?? "");
+          monaco.editor.setTheme("fun-dark");
+
           const model = editor.getModel();
           if (model) {
             monaco.editor.setModelLanguage(model, "gherkin");
@@ -268,7 +296,7 @@ export default function GherkinEditor({
 
                 if (context.mode === "page") {
                   return {
-                    suggestions: pagesRef.current.map((p) => ({
+                    suggestions: pages.map((p) => ({
                       label: p.name,
                       kind: monaco.languages.CompletionItemKind.Module,
                       insertText: p.name,
@@ -278,15 +306,13 @@ export default function GherkinEditor({
                 }
 
                 if (context.mode === "element" && context.pageName) {
-                  const foundPage = pagesRef.current.find((p) =>
-                    normalizeName(p.name).includes(
-                      normalizeName(context.pageName),
-                    ),
+                  const foundPage = pages.find(
+                    (p) => p.name === context.pageName,
                   );
 
                   if (!foundPage) {
                     return {
-                      suggestions: pagesRef.current.map((p) => ({
+                      suggestions: pages.map((p) => ({
                         label: p.name,
                         kind: monaco.languages.CompletionItemKind.Module,
                         insertText: p.name,
@@ -296,7 +322,7 @@ export default function GherkinEditor({
                   }
 
                   return {
-                    suggestions: (foundPage.elements ?? []).map((el) => ({
+                    suggestions: foundPage.elements.map((el) => ({
                       label: el,
                       kind: monaco.languages.CompletionItemKind.Field,
                       insertText: el,
@@ -306,25 +332,24 @@ export default function GherkinEditor({
                 }
 
                 if (context.mode === "step" && context.keyword) {
-                  const keywordMatch = line.match(
-                    /\b(Given|When|Then|And|But)\b/,
+                  const cleanLine = line.trimStart();
+                  const keywordMatch = cleanLine.match(
+                    /^\s*(Given|When|Then|And|But)\b/,
                   );
-                  const keyword = keywordMatch?.[1];
-
-                  const keywordIndex = line.indexOf(keyword ?? "");
+                  const keywordLength = keywordMatch?.[1]?.length ?? 0;
 
                   const range = {
                     startLineNumber: position.lineNumber,
                     endLineNumber: position.lineNumber,
-                    startColumn: keywordIndex + 1 + keyword.length,
-                    endColumn: position.column,
+                    startColumn: keywordLength + 2,
+                    endColumn: Math.max(position.column, keywordLength + 2),
                   };
 
                   return {
                     suggestions: stepSuggestions.map((step) => ({
                       label: step.label,
                       kind: monaco.languages.CompletionItemKind.Snippet,
-                      insertText: ` ${step.insertText}`,
+                      insertText: step.insertText,
                       insertTextRules:
                         monaco.languages.CompletionItemInsertTextRule
                           .InsertAsSnippet,

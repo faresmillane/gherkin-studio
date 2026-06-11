@@ -5,18 +5,19 @@ export const stepSuggestions = [
 
   {
     label: 'I navigate to "PageName" page',
-    insertText: 'I navigate to "${1:$page}" page',
+    insertText: 'I navigate to "${1:PageName}" page',
     category: "navigation",
   },
+
   {
     label: 'I access in the "PageName" page',
-    insertText: 'I access in the "${1:}" page',
+    insertText: 'I access in the "${1:PageName}" page',
     category: "navigation",
   },
 
   {
     label: 'I access to external "PageName" page',
-    insertText: 'I access to external "${1:}" page',
+    insertText: 'I access to external "${1:PageName}" page',
     category: "navigation",
   },
 
@@ -28,53 +29,59 @@ export const stepSuggestions = [
   },
 
   // =========================================================
-  // CLICKS / ACTIONS
+  // UI ACTIONS
   // =========================================================
 
   {
     label: 'I click on the "PageName"."ElementName"',
-    insertText: 'I click on the "${1:}"."${2:}"',
+    insertText:
+      'I click on the "${1:PageName}"."${2:ElementName}"',
     category: "ui",
   },
 
   {
     label: 'I double click on the "PageName"."ElementName"',
-    insertText: 'I double click on the "${1:}"."${2:}"',
+    insertText:
+      'I double click on the "${1:PageName}"."${2:ElementName}"',
     category: "ui",
   },
 
   {
     label: 'I right click on the "PageName"."ElementName"',
-    insertText: 'I right click on the "${1:}"."${2:}"',
+    insertText:
+      'I right click on the "${1:PageName}"."${2:ElementName}"',
     category: "ui",
   },
 
   {
     label: 'I click in the all "PageName"."ElementName" list',
-    insertText: 'I click in the all "${1:}"."${2:}" list',
+    insertText:
+      'I click in the all "${1:PageName}"."${2:ElementName}" list',
     category: "ui",
   },
 
   {
     label: 'I scroll to see "PageName"."ElementName" field',
-    insertText: 'I scroll to see "${1:}"."${2:}" field',
+    insertText:
+      'I scroll to see "${1:PageName}"."${2:ElementName}" field',
     category: "ui",
   },
 
   {
     label: 'I hover the "PageName"."ElementName"',
-    insertText: 'I hover the "${1:}"."${2:}"',
+    insertText:
+      'I hover the "${1:PageName}"."${2:ElementName}"',
     category: "ui",
   },
 
   // =========================================================
-  // INPUTS / DATA
+  // INPUTS
   // =========================================================
 
   {
     label: 'I write "Text" in the "PageName"."ElementName" field',
     insertText:
-      'I write "${1:Text}" in the "${2:PageName}" "${3:ElementName}" field',
+      'I write "${1:Text}" in the "${2:PageName}"."${3:ElementName}" field',
     category: "data",
   },
 
@@ -82,7 +89,7 @@ export const stepSuggestions = [
     label:
       'I write my "DataType"."DataKey" in the "PageName"."ElementName" field',
     insertText:
-      'I write my "${1:DataType}"."${2:DataKey}" in the "${3:PageName}" "${4:ElementName}" field',
+      'I write my "${1:DataType}"."${2:DataKey}" in the "${3:PageName}"."${4:ElementName}" field',
     category: "data",
   },
 
@@ -96,24 +103,26 @@ export const stepSuggestions = [
 
   {
     label: 'I write all fields in "PageName" page',
-    insertText: 'I write all fields in "${1:}" page',
+    insertText:
+      'I write all fields in "${1:PageName}" page',
     category: "data",
   },
 
   // =========================================================
-  // SELECT / LISTS
+  // SELECT
   // =========================================================
 
   {
     label: 'I select "Value" in the "PageName"."ElementName" list',
     insertText:
-      'I select "${1:Value}" in the "${2:PageName}" "${3:ElementName}" list',
+      'I select "${1:Value}" in the "${2:PageName}"."${3:ElementName}" list',
     category: "ui",
   },
 
   {
     label: 'I select all values in the "PageName"."ElementName" list',
-    insertText: 'I select all values in the "${1:}"."${2:}" list',
+    insertText:
+      'I select all values in the "${1:PageName}"."${2:ElementName}" list',
     category: "ui",
   },
 
@@ -124,7 +133,7 @@ export const stepSuggestions = [
   {
     label: 'I see "Text" "text" in the "PageName"."ElementName" field',
     insertText:
-      'I see "${1:Text}" "${2|text,label,data|}" in the "${3:PageName}" "${4:ElementName}" field',
+      'I see "${1:Text}" "${2|text,label,data|}" in the "${3:PageName}"."${4:ElementName}" field',
     category: "assertion",
   },
 
@@ -138,13 +147,14 @@ export const stepSuggestions = [
   {
     label: 'The button "PageName"."ElementName" is "enabled"',
     insertText:
-      'The button "${1:}"."${2:}" is "${3|selected,disabled,not_selected,enabled|}"',
+      'The button "${1:PageName}"."${2:ElementName}" is "${3|selected,disabled,not_selected,enabled|}"',
     category: "assertion",
   },
 
   {
     label: 'I verify the sum list with the total "PageName"."ElementName"',
-    insertText: 'I verify the sum list with the total "${1:}"."${2:}"',
+    insertText:
+      'I verify the sum list with the total "${1:PageName}"."${2:ElementName}"',
     category: "assertion",
   },
 
@@ -164,45 +174,50 @@ export const stepSuggestions = [
   },
 
   // =========================================================
-  // AUTH / USERS
+  // AUTH
   // =========================================================
 
   {
     label: 'I am a "users"."UserType"',
-    insertText: 'I am a "${1:users}"."${2:admin}"',
+    insertText:
+      'I am a "${1:users}"."${2:admin}"',
     category: "auth",
   },
 
   {
     label: 'I log in as "users"."UserType"',
-    insertText: 'I log in as "${1:users}"."${2:standardUser}"',
+    insertText:
+      'I log in as "${1:users}"."${2:standardUser}"',
     category: "auth",
   },
 
   {
     label: 'I reset my "users"."UserType"',
-    insertText: 'I reset my "${1:users}"."${2:user}"',
+    insertText:
+      'I reset my "${1:users}"."${2:user}"',
     category: "auth",
   },
 
   // =========================================================
-  // API / SERVICES
+  // API
   // =========================================================
 
   {
     label: 'I get my "api"."RequestName"',
-    insertText: 'I get my "${1:api}"."${2:RequestName}"',
+    insertText:
+      'I get my "${1:api}"."${2:RequestName}"',
     category: "api",
   },
 
   {
     label: 'I have a good "api"."ResponseName" response',
-    insertText: 'I have a good "${1:api}"."${2:ResponseName}" response',
+    insertText:
+      'I have a good "${1:api}"."${2:ResponseName}" response',
     category: "api",
   },
 
   // =========================================================
-  // PAYMENTS
+  // PAYMENT
   // =========================================================
 
   {
